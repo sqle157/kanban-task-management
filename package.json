@@ -1,0 +1,33 @@
+{
+	"name": "task-management-website",
+	"version": "1.0.0",
+	"description": "A kanban-style task management web app",
+	"main": "server.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "rimraf backend/build && cd backend && tsc",
+		"server": "nodemon backend/src/server.ts",
+		"client": "npm run dev --prefix frontend",
+		"dev": "concurrently \"npm run server\" \"npm run client\""
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"concurrently": "^7.5.0",
+		"dotenv": "^16.0.3",
+		"express": "^4.18.2",
+		"express-async-handler": "^1.2.0",
+		"mongoose": "^6.7.2"
+	},
+	"devDependencies": {
+		"@types/dotenv": "^8.2.0",
+		"@types/express": "^4.17.14",
+		"@types/node": "^18.11.9",
+		"nodemon": "^2.0.20",
+		"rimraf": "^3.0.2",
+		"ts-node": "^10.9.1",
+		"ts-node-dev": "^2.0.0",
+		"typescript": "^4.9.3"
+	}
+}
