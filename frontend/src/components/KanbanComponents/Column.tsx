@@ -5,19 +5,18 @@ import { ColumnProps } from '../../shared/types/interfaces';
 import TaskCard from './TaskCard';
 
 function generateRandomLightColor() {
-	return 'hsl(' + Math.random() * 360 + ', 100%, 75%)';
+	return `hsl(${Math.random() * 360}, 100%, 75%)`;
 }
 
-const Column = ({ column }: ColumnProps) => {
+function Column({ column }: ColumnProps) {
 	return (
 		<div>
 			<div className='mb-6 flex items-center gap-3'>
 				<span
-					className={`inline-block w-[0.9375rem] h-[0.9735rem] rounded-full bg-[var(--randomBg)]`}
-					style={
-						{ '--randomBg': generateRandomLightColor() } as CSSProperties
-					}></span>
-				<h2 className='text-[#828FA3] text-xs leading-[.9375rem] tracking-[.15rem] uppercase'>
+					className='inline-block h-[0.9735rem] w-[0.9375rem] rounded-full bg-[var(--randomBg)]'
+					style={{ '--randomBg': generateRandomLightColor() } as CSSProperties}
+				/>
+				<h2 className='text-xs uppercase leading-[.9375rem] tracking-[.15rem] text-[#828FA3]'>
 					{column.name} ({column.tasks?.length})
 				</h2>
 			</div>
@@ -26,5 +25,5 @@ const Column = ({ column }: ColumnProps) => {
 			))}
 		</div>
 	);
-};
+}
 export default Column;

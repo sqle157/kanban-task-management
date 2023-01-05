@@ -1,4 +1,4 @@
-import { PAYLOAD_TYPE } from './contextTypes';
+import { MODAL_PAYLOAD_TYPE } from './contextTypes';
 
 // Subtask definition
 interface ISubtask {
@@ -16,7 +16,7 @@ export interface ITask {
 	status: string;
 	column: string;
 	subtasks: ISubtask[];
-	boardId: string;
+	boardId?: string;
 }
 
 // Column definition
@@ -62,19 +62,20 @@ export interface BoardItemProps extends KanbanBoardProps {
 // CreateAndEditBoard Props
 export interface CreateAndEditBoardProps {
 	action: Exclude<
-		PAYLOAD_TYPE,
-		'DELETE_BOARD' | 'ADD_TASK' | 'EDIT_TASK' | 'DELETE_TASK'
+		MODAL_PAYLOAD_TYPE,
+		'DELETE_BOARD' | 'ADD_TASK' | 'EDIT_TASK' | 'DELETE_TASK' | 'VIEW_TASK'
 	>;
 }
 
 // CreateAndEditBoard Props
 export interface AddAndEditTaskProps {
 	action: Exclude<
-		PAYLOAD_TYPE,
+		MODAL_PAYLOAD_TYPE,
 		| 'DELETE_BOARD'
 		| 'CREATE_BOARD'
 		| 'EDIT_BOARD'
 		| 'DELETE_TASK'
 		| 'ADD_COLUMN'
+		| 'VIEW_TASK'
 	>;
 }

@@ -1,17 +1,28 @@
+import { useModalContext } from '../../hooks/useModalContext';
+import { useBoardContext } from '../../hooks/useBoardContext';
 // Interface
 import { TaskCardProps } from '../../shared/types/interfaces';
 
-const TaskCard = ({ task }: TaskCardProps) => {
+function TaskCard({ task }: TaskCardProps) {
+	const { dispatch } = useBoardContext();
+	const { dispatch: modalDispatch } = useModalContext();
+
+	const handleViewTaskClick = () => {
+		dispatch({ type: 'SET_TASK', payload: task });
+		modalDispatch({ type: 'OPEN_MODAL', payload: 'VIEW_TASK' });
+	};
+
 	return (
-		<div className='group cursor-pointer px-4 py-6 mb-5 bg-[#2B2C37] rounded-lg shadow-md shadow-[rgba(54,78,126,0.101545)]'>
-			<h3 className='text-white group-hover:text-[#635FC7] font-bold text-[.9375rem] leading-5 mb-2'>
-				{task.title}
-			</h3>
-			<span className='text-xs text-[#828FA3] leading-[.9375rem] font-bold '>
+		<button
+			className='mb-2 w-full cursor-pointer rounded-lg bg-[#2B2C37] px-4 py-6 text-start text-[.9375rem] font-bold leading-5 text-white shadow-md shadow-[rgba(54,78,126,0.101545)] hover:text-[#635FC7]'
+			type='button'
+			onClick={handleViewTaskClick}>
+			{task.title}
+			<span className='mt-5 block text-xs font-bold leading-[.9375rem] text-[#828FA3]'>
 				{task.subtasks.filter((subtask) => subtask.isCompleted).length} of{' '}
 				{task.subtasks.length} subtasks
 			</span>
-		</div>
+		</button>
 	);
-};
+}
 export default TaskCard;

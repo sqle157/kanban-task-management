@@ -97,10 +97,11 @@ export const updateTask: RequestHandler<
 		description?: string;
 		subtasks?: ISubtask[];
 		status?: string;
+		column?: string;
 	}
 > = asyncHandler(async (req, res) => {
 	const { taskId } = req.params;
-	const { title, description, subtasks, status } = req.body;
+	const { title, description, subtasks, status, column } = req.body;
 
 	// Check title empty
 	if (title && title === '') {
@@ -121,7 +122,7 @@ export const updateTask: RequestHandler<
 	// Update the task
 	const task = await Task.findByIdAndUpdate(
 		taskId,
-		{ title, description, subtasks, status },
+		{ title, description, subtasks, status, column },
 		{ new: true }
 	);
 

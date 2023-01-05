@@ -29,10 +29,10 @@ export const useFetch = <T>() => {
 				setLoading(false);
 
 				return data;
-			} catch (error) {
+			} catch (e) {
 				// set the error
-				if (error instanceof Error) {
-					setError(error.message);
+				if (e instanceof Error) {
+					setError(e.message);
 					setLoading(false);
 				}
 			}

@@ -1,6 +1,5 @@
-import { useBoardContext } from '../../hooks/useBoardContext';
-// Icons
 import { FaArrowLeft } from 'react-icons/fa';
+import { useBoardContext } from '../../hooks/useBoardContext';
 // Components
 import KanbanBoard from '../KanbanComponents/KanbanBoard';
 
@@ -9,14 +8,14 @@ function MainSection() {
 
 	return (
 		<main
-			className='w-[calc(100%-300px)] h-[calc(100%-6rem)] max-h-full ml-[300px] relative'
+			className='relative ml-[300px] h-[calc(100%-6rem)] max-h-full w-[calc(100%-300px)]'
 			id='main'>
 			{board ? (
-				<div className='w-full h-full pt-6 pl-6 overflow-x-visible'>
+				<div className='h-full w-full overflow-x-visible pt-6 pl-6'>
 					<KanbanBoard board={board} />
 				</div>
 			) : (
-				<div className='h-full flex gap-8 justify-center items-center'>
+				<div className='flex h-full items-center justify-center gap-8'>
 					<FaArrowLeft size={16} className='animate-pulse' />
 					<h2 className='text-xl'>{`Please ${
 						boards.length === 0 ? 'create' : 'select'

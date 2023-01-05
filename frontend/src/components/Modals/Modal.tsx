@@ -4,12 +4,13 @@ import Overlay from './Overlay';
 import CreateAndEditBoard from './CreateAndEditBoard';
 import DeleteBoard from './DeleteBoard';
 import AddAndEditTask from './AddAndEditTask';
+import ViewTask from './ViewTask';
 
 function Modal() {
 	const { modalAction } = useModalContext();
 
-	// Delete board action
-	if (modalAction === 'DELETE_BOARD') {
+	// Delete board and delete task action
+	if (modalAction === 'DELETE_BOARD' || modalAction === 'DELETE_TASK') {
 		return (
 			<Overlay>
 				<DeleteBoard />
@@ -22,6 +23,15 @@ function Modal() {
 		return (
 			<Overlay>
 				<AddAndEditTask action={modalAction} />
+			</Overlay>
+		);
+	}
+
+	// View task action
+	if (modalAction === 'VIEW_TASK') {
+		return (
+			<Overlay>
+				<ViewTask />
 			</Overlay>
 		);
 	}

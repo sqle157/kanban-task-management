@@ -1,4 +1,10 @@
-import { createContext, useReducer, useEffect, PropsWithChildren } from 'react';
+import {
+	createContext,
+	useReducer,
+	useEffect,
+	useMemo,
+	PropsWithChildren,
+} from 'react';
 import { useFetch } from '../hooks/useFetch';
 // Types & Interfaces
 import {
@@ -13,6 +19,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 const initialState: BoardInitialState = {
 	boards: [],
 	board: null,
+	task: null,
 };
 
 export const BoardContext = createContext<BoardContextType | null>(null);
@@ -41,7 +48,9 @@ const boardReducer = (state: BoardInitialState, action: BOARD_ACTION_TYPE) => {
 		case 'UPDATE_BOARD': {
 			const newBoards = state.boards.map((board) => {
 				if (board._id === action.payload._id) {
-					board = { ...action.payload };
+					const newBoard = { ...action.payload };
+
+					return newBoard;
 				}
 				return board;
 			});
@@ -63,14 +72,61 @@ const boardReducer = (state: BoardInitialState, action: BOARD_ACTION_TYPE) => {
 				board: null,
 			};
 		}
+		case 'SET_TASK': {
+			return {
+				...state,
+				task: action.payload,
+			};
+		}
+		case 'ADD_TASK': {
+			// Add the task to the column
+			const newCurrentColumns = state.board?.columns.map((column) => {
+				if (column._id === action.payload.column) {
+					const newColumn = {
+						...column,
+						tasks: [...column.tasks, action.payload],
+					};
+
+					return newColumn;
+				}
+
+				return column;
+			});
+
+			// Update the current board
+			const newCurrentBoard = {
+				...state.board,
+				columns: newCurrentColumns
+					? [...newCurrentColumns]
+					: state.board && [...state.board.columns],
+			};
+
+			// Update the board list
+			const newBoards = state.boards.map((board) => {
+				if (board._id === newCurrentBoard._id) {
+					const newBoard = { ...newCurrentBoard };
+
+					return newBoard;
+				}
+
+				return board;
+			});
+
+			return {
+				boards: [...newBoards],
+				board: { ...newCurrentBoard },
+				task: null,
+			} as BoardInitialState;
+		}
 		default:
 			return state;
 	}
 };
 
-const BoardContextProvider = ({ children }: PropsWithChildren) => {
+function BoardContextProvider({ children }: PropsWithChildren) {
 	const [state, dispatch] = useReducer(boardReducer, initialState);
 	const { sendFetchRequest, loading } = useFetch<IBoard[]>();
+	const value = useMemo(() => ({ ...state, dispatch }), [state]);
 
 	useEffect(() => {
 		const fetchBoards = async () => {
@@ -81,7 +137,9 @@ const BoardContextProvider = ({ children }: PropsWithChildren) => {
 					// Set the boards
 					dispatch({ type: 'SET_BOARDS', payload: data });
 				}
-			} catch (error) {}
+			} catch (error) {
+				/* empty */
+			}
 		};
 
 		// Fetch the data
@@ -93,10 +151,8 @@ const BoardContextProvider = ({ children }: PropsWithChildren) => {
 	}
 
 	return (
-		<BoardContext.Provider value={{ ...state, dispatch }}>
-			{children}
-		</BoardContext.Provider>
+		<BoardContext.Provider value={value}>{children}</BoardContext.Provider>
 	);
-};
+}
 
 export default BoardContextProvider;
