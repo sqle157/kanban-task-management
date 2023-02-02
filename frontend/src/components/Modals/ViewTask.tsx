@@ -23,7 +23,7 @@ function ViewTask() {
 
 	// Run the effect everytime after the taskData change
 	useEffect(() => {
-		const updateTask = async () => {
+		async function updateTask() {
 			try {
 				const data = await sendFetchRequest(
 					`api/tasks/${task?._id}`,
@@ -40,13 +40,13 @@ function ViewTask() {
 			} catch (error) {
 				/* empty */
 			}
-		};
+		}
 
 		updateTask();
 	}, [taskData]);
 
 	// Event handler to handle checkbox click
-	const handleCheckBoxClick = (id: string) => {
+	function handleCheckBoxClick(id: string) {
 		setTaskData((prevData) => {
 			const newSubtasks = prevData.subtasks.map((subtask) => {
 				if (subtask._id === id) {
@@ -63,22 +63,22 @@ function ViewTask() {
 				subtasks: [...newSubtasks],
 			};
 		});
-	};
+	}
 
 	// Event handler to handle edit board action
-	const handleEditTaskClick = () => {
+	function handleEditTaskClick() {
 		modalDispatch({ type: 'OPEN_MODAL', payload: 'EDIT_TASK' });
 		setOpenActionElement(false);
-	};
+	}
 
 	// Event handler to handle delete board action
-	const handleDeleteTaskClick = () => {
+	function handleDeleteTaskClick() {
 		modalDispatch({ type: 'OPEN_MODAL', payload: 'DELETE_TASK' });
 		setOpenActionElement(false);
-	};
+	}
 
 	// Event handler to handle status change
-	const handleChangeStatus = (name: string, id: string) => {
+	function handleChangeStatus(name: string, id: string) {
 		if (id) {
 			setTaskData((prevData) => ({
 				...prevData,
@@ -88,14 +88,14 @@ function ViewTask() {
 
 			setIsSelectStatus(false);
 		}
-	};
+	}
 
 	return (
 		task && (
 			<>
 				<div className='relative mb-6 flex items-center justify-between gap-6'>
 					<h2 className='text-lg font-bold leading-6 text-white'>
-						{task.title}
+						{taskData.title}
 					</h2>
 					<button
 						className='cursor-pointer'

@@ -10,7 +10,7 @@ function BoardItem({ board, activeBoard, setActiveBoard }: BoardItemProps) {
 	const { sendFetchRequest, loading } = useFetch<IBoard>();
 
 	// Helper function to handle select the board
-	const handleBoardClick = async (boardId: string | null) => {
+	async function handleBoardClick(boardId: string | null) {
 		if (boardId) {
 			setActiveBoard(boardId);
 			try {
@@ -23,7 +23,7 @@ function BoardItem({ board, activeBoard, setActiveBoard }: BoardItemProps) {
 				/* empty */
 			}
 		}
-	};
+	}
 
 	return (
 		<>

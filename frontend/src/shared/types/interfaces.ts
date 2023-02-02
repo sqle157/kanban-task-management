@@ -59,6 +59,19 @@ export interface BoardItemProps extends KanbanBoardProps {
 	setActiveBoard: React.Dispatch<React.SetStateAction<string>>;
 }
 
+// DeleteModal Props
+export interface DeleteModalProps {
+	action: Exclude<
+		MODAL_PAYLOAD_TYPE,
+		| 'ADD_TASK'
+		| 'EDIT_TASK'
+		| 'VIEW_TASK'
+		| 'ADD_COLUMN'
+		| 'EDIT_BOARD'
+		| 'CREATE_BOARD'
+	>;
+}
+
 // CreateAndEditBoard Props
 export interface CreateAndEditBoardProps {
 	action: Exclude<

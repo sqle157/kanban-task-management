@@ -1,41 +1,54 @@
 import { useBoardContext } from '../../hooks/useBoardContext';
 import { useModalContext } from '../../hooks/useModalContext';
 import { useFetch } from '../../hooks/useFetch';
+// Components
 import LoadingSpinner from '../LoadingSpinner';
+// Interfaces
+import { DeleteModalProps } from '../../shared/types/interfaces';
 
-function DeleteBoard() {
-	const { board, dispatch } = useBoardContext();
+function DeleteModal({ action }: DeleteModalProps) {
+	const { board, task, dispatch } = useBoardContext();
 	const { dispatch: modalDispatch } = useModalContext();
 	const { sendFetchRequest, loading } = useFetch<{ success: boolean }>();
 
-	const handleDeleteClick = async () => {
+	async function handleDeleteClick() {
 		try {
 			const data = await sendFetchRequest(
-				`/api/boards/${board?._id}`,
+				action === 'DELETE_BOARD'
+					? `/api/boards/${board?._id}`
+					: `/api/tasks/${task?._id}`,
 				'DELETE'
 			);
 
 			if (data?.success) {
-				dispatch({ type: 'DELETE_BOARD', payload: board?._id ?? '' });
+				dispatch({
+					type: action === 'DELETE_BOARD' ? 'DELETE_BOARD' : 'DELETE_TASK',
+					payload:
+						action === 'DELETE_BOARD'
+							? (board?._id as string)
+							: (task?._id as string),
+				});
 				modalDispatch({ type: 'CLOSE_MODAL' });
 			}
 		} catch (error) {
 			/* empty */
 		}
-	};
+	}
 
-	const handleCancelClick = () => {
+	function handleCancelClick() {
 		modalDispatch({ type: 'CLOSE_MODAL' });
-	};
+	}
 
 	return (
 		<>
 			<h2 className='mb-6 text-lg font-bold leading-6 text-[#EA5555]'>
-				Delete this board?
+				Delete this {action === 'DELETE_BOARD' ? 'board' : 'task'}?
 			</h2>
 			<p className='mb-6 text-[0.8125rem] font-medium leading-6'>
-				Are you sure you want to delete the {board?.name} board? This action
-				will remove all columns and tasks and cannot be reversed.
+				Are you sure you want to delete the{' '}
+				{action === 'DELETE_BOARD'
+					? `${board?.name} board? This action will remove all columns and tasks and cannot be reversed.`
+					: `${task?.title} task and its subtasks? This action cannot be reversed.`}
 			</p>
 			<div className='flex items-center gap-4'>
 				<button
@@ -56,4 +69,4 @@ function DeleteBoard() {
 		</>
 	);
 }
-export default DeleteBoard;
+export default DeleteModal;

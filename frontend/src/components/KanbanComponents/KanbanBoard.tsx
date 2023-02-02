@@ -8,9 +8,9 @@ function KanbanBoard({ board }: KanbanBoardProps) {
 	const { dispatch } = useModalContext();
 
 	// Event handler to handle add column action
-	const handleAddColumnClick = () => {
+	function handleAddColumnClick() {
 		dispatch({ type: 'OPEN_MODAL', payload: 'ADD_COLUMN' });
-	};
+	}
 
 	// If there is no column
 	if (board.columns.length === 0) {

@@ -14,22 +14,22 @@ function Navbar() {
 	useOnClickOutside<HTMLDivElement>(ref, () => setOpenActionElement(false));
 
 	// Event handler to handle add task action
-	const handleAddTaskClick = () => {
+	function handleAddTaskClick() {
 		dispatch({ type: 'OPEN_MODAL', payload: 'ADD_TASK' });
 		setOpenActionElement(false);
-	};
+	}
 
 	// Event handler to handle edit board action
-	const handleEditBoardClick = () => {
+	function handleEditBoardClick() {
 		dispatch({ type: 'OPEN_MODAL', payload: 'EDIT_BOARD' });
 		setOpenActionElement(false);
-	};
+	}
 
 	// Event handler to handle delete board action
-	const handleDeleteBoardClick = () => {
+	function handleDeleteBoardClick() {
 		dispatch({ type: 'OPEN_MODAL', payload: 'DELETE_BOARD' });
 		setOpenActionElement(false);
-	};
+	}
 
 	return (
 		<header className='relative ml-[300px] h-24 border-b border-b-[#3E3F4E] bg-[#2B2C37]'>

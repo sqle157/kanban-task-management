@@ -10,15 +10,11 @@ function AddAndEditTask({ action }: AddAndEditTaskProps) {
 	const { board, task, dispatch } = useBoardContext();
 	const { dispatch: modalDispatch } = useModalContext();
 	const [isSelectStatus, setIsSelectStatus] = useState<boolean>(false);
+	// Initial Task Data
 	const [taskData, setTaskData] = useState<ITask>(() => {
-		if (board) {
+		if (action === 'EDIT_TASK' && task) {
 			return {
-				title: '',
-				description: '',
-				subtasks: [],
-				status: board.columns[0].name,
-				column: board.columns[0]._id ?? '',
-				boardId: board._id,
+				...task,
 			};
 		}
 
@@ -26,26 +22,26 @@ function AddAndEditTask({ action }: AddAndEditTaskProps) {
 			title: '',
 			description: '',
 			subtasks: [],
-			status: '',
-			column: '',
-			boardId: '',
-		};
+			status: board?.columns[0].name,
+			column: board?.columns[0]._id,
+			boardId: board?._id,
+		} as ITask;
 	});
 
 	// Event handler to handle change title and description value
-	const handleOnChange = (
+	function handleOnChange(
 		e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-	) => {
+	) {
 		const target = e.target.name;
 
 		setTaskData((prevData) => ({
 			...prevData,
 			[target]: e.target.value,
 		}));
-	};
+	}
 
 	// Event handler to handle add new subtask
-	const handleAddSubtaskClick = () => {
+	function handleAddSubtaskClick() {
 		setTaskData((prevData) => ({
 			...prevData,
 			subtasks: [
@@ -53,10 +49,10 @@ function AddAndEditTask({ action }: AddAndEditTaskProps) {
 				{ title: '', isCompleted: false, id: crypto.randomUUID() },
 			],
 		}));
-	};
+	}
 
 	// Helper function to handle delete subtaks
-	const handleDeleteSubtask = (id: string | null) => {
+	function handleDeleteSubtask(id: string | null) {
 		if (id) {
 			setTaskData((prevData) => {
 				const filterdSubtasks = prevData.subtasks.filter(
@@ -69,10 +65,10 @@ function AddAndEditTask({ action }: AddAndEditTaskProps) {
 				};
 			});
 		}
-	};
+	}
 
 	// Helper function to handle change subtask title
-	const handleChangeSubtaskTitle = (value: string, id: string | null) => {
+	function handleChangeSubtaskTitle(value: string, id: string | null) {
 		if (id) {
 			setTaskData((prevData) => {
 				const newSubtasks = prevData.subtasks.map((subtask) => {
@@ -94,10 +90,10 @@ function AddAndEditTask({ action }: AddAndEditTaskProps) {
 				};
 			});
 		}
-	};
+	}
 
 	// Event handler to handle status change
-	const handleChangeStatus = (name: string, id: string | null) => {
+	function handleChangeStatus(name: string, id: string | null) {
 		if (id) {
 			setTaskData((prevData) => ({
 				...prevData,
@@ -107,16 +103,16 @@ function AddAndEditTask({ action }: AddAndEditTaskProps) {
 		}
 
 		setIsSelectStatus(false);
-	};
+	}
 
 	// Event handler to handle form submit
-	const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
+	async function handleOnSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 
 		try {
 			const data = await sendFetchRequest(
-				'/api/tasks',
-				'POST',
+				action === 'ADD_TASK' ? '/api/tasks' : `/api/tasks/${task?._id}`,
+				action === 'ADD_TASK' ? 'POST' : 'PATCH',
 				JSON.stringify(taskData),
 				{
 					'Content-Type': 'application/json',
@@ -124,13 +120,16 @@ function AddAndEditTask({ action }: AddAndEditTaskProps) {
 			);
 
 			if (data) {
-				dispatch({ type: 'ADD_TASK', payload: data });
+				dispatch({
+					type: action === 'ADD_TASK' ? 'ADD_TASK' : 'UPDATE_TASK',
+					payload: data,
+				});
 				modalDispatch({ type: 'CLOSE_MODAL' });
 			}
 		} catch (err) {
 			/* empty */
 		}
-	};
+	}
 
 	return (
 		<form onSubmit={handleOnSubmit}>
@@ -245,7 +244,7 @@ function AddAndEditTask({ action }: AddAndEditTaskProps) {
 						{board?.columns.map((column) => (
 							<button
 								key={column._id}
-								className='cursor-pointer text-[0.8125rem] font-medium leading-6 text-[#828FA3]'
+								className='cursor-pointer text-start text-[0.8125rem] font-medium leading-6 text-[#828FA3]'
 								type='button'
 								onClick={() =>
 									handleChangeStatus(column.name, column._id ?? null)

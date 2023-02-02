@@ -12,9 +12,9 @@ function SideDrawer() {
 	const [activeBoard, setActiveBoard] = useState<string>('');
 
 	// Event handler to handle create board action
-	const handleCreateBoardClick = () => {
+	function handleCreateBoardClick() {
 		modalDispatch({ type: 'OPEN_MODAL', payload: 'CREATE_BOARD' });
-	};
+	}
 
 	return (
 		<div className='absolute left-0 top-0 bottom-0 w-[300px] border-r border-r-[#3E3F4E] bg-[#2B2C37] pr-6'>

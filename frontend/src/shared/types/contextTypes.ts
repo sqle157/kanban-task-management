@@ -1,14 +1,10 @@
 import { IBoard, ITask } from './interfaces';
 
-// Board Context Types
+// ---------- Board Context Types ------------- //
 export type BoardInitialState = {
 	boards: IBoard[];
 	board: IBoard | null;
 	task: ITask | null;
-};
-
-export type BoardContextType = BoardInitialState & {
-	dispatch: React.Dispatch<BOARD_ACTION_TYPE>;
 };
 
 export type BOARD_ACTION_TYPE =
@@ -20,9 +16,13 @@ export type BOARD_ACTION_TYPE =
 	| { type: 'SET_TASK'; payload: ITask }
 	| { type: 'ADD_TASK'; payload: ITask }
 	| { type: 'UPDATE_TASK'; payload: ITask }
-	| { type: 'DELETE_TASK'; payload: ITask };
+	| { type: 'DELETE_TASK'; payload: string };
 
-// Modal Context Types
+export type BoardContextType = BoardInitialState & {
+	dispatch: React.Dispatch<BOARD_ACTION_TYPE>;
+};
+
+// ---------- Modal Context Types ------------- //
 export type ModalInitialState = {
 	modalOpen: boolean;
 	modalAction: MODAL_PAYLOAD_TYPE | null;

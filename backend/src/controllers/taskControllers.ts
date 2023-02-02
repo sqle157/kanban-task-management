@@ -1,11 +1,10 @@
-import { Types } from 'mongoose';
 import { RequestHandler } from 'express';
 import asyncHandler from 'express-async-handler';
 // Models
 import Task from '../models/taskModel';
 import Board from '../models/boardModel';
 // Interfaces
-import { ITask, ISubtask } from '../models/taskModel';
+import { ISubtask } from '../models/taskModel';
 
 /**
  * @desc    Get All Tasks
@@ -44,6 +43,12 @@ export const createTask: RequestHandler<
 		throw new Error('No such board!');
 	}
 
+	// check if columnId is empty
+	if (!column) {
+		res.status(401);
+		throw new Error('Please provide a columnId');
+	}
+
 	// Find the target column in the board
 	const targetedColumn = board.columns.find((col) => col.id === column);
 
@@ -53,6 +58,7 @@ export const createTask: RequestHandler<
 
 	// if title is empty
 	if (!title) {
+		res.status(401);
 		throw new Error("Can't be empty");
 	}
 
@@ -64,12 +70,6 @@ export const createTask: RequestHandler<
 				throw new Error("Can't be empty");
 			}
 		}
-	}
-
-	// check if columnId is empty
-	if (!column) {
-		res.status(401);
-		throw new Error('Please provide a columnId');
 	}
 
 	// Create new task
@@ -104,8 +104,7 @@ export const updateTask: RequestHandler<
 	const { title, description, subtasks, status, column } = req.body;
 
 	// Check title empty
-	if (title && title === '') {
-		res.status(401);
+	if (!title) {
 		throw new Error("Can't be empty");
 	}
 
@@ -113,7 +112,6 @@ export const updateTask: RequestHandler<
 	if (subtasks && subtasks.length >= 1) {
 		for (const subtask of subtasks) {
 			if (!subtask.title) {
-				res.status(401);
 				throw new Error("Can't be empty");
 			}
 		}
@@ -153,6 +151,8 @@ export const deleteTask: RequestHandler<{ taskId: string }> = asyncHandler(
 			throw new Error('No such task');
 		}
 
-		res.status(200).json(task);
+		res.status(200).json({
+			success: true,
+		});
 	}
 );

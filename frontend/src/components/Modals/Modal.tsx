@@ -2,7 +2,7 @@ import { useModalContext } from '../../hooks/useModalContext';
 // Components
 import Overlay from './Overlay';
 import CreateAndEditBoard from './CreateAndEditBoard';
-import DeleteBoard from './DeleteBoard';
+import DeleteModal from './DeleteModal';
 import AddAndEditTask from './AddAndEditTask';
 import ViewTask from './ViewTask';
 
@@ -13,7 +13,7 @@ function Modal() {
 	if (modalAction === 'DELETE_BOARD' || modalAction === 'DELETE_TASK') {
 		return (
 			<Overlay>
-				<DeleteBoard />
+				<DeleteModal action={modalAction} />
 			</Overlay>
 		);
 	}

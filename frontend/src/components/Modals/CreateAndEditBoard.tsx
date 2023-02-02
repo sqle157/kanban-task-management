@@ -18,6 +18,7 @@ function CreateAndEditBoard({ action }: CreateAndEditBoardProps) {
 				...board,
 			};
 		}
+
 		return {
 			name: '',
 			columns: [],
@@ -25,14 +26,14 @@ function CreateAndEditBoard({ action }: CreateAndEditBoardProps) {
 	});
 
 	// Event handler to handle change board name
-	const handleChangeBoardName = (e: ChangeEvent<HTMLInputElement>) => {
+	function handleChangeBoardName(e: ChangeEvent<HTMLInputElement>) {
 		const target = e.target.name;
 
 		setBoardData((prevData) => ({ ...prevData, [target]: e.target.value }));
-	};
+	}
 
 	// Helper function to handle change column name
-	const handleChangeColumnName = (value: string, id: string | null) => {
+	function handleChangeColumnName(value: string, id: string | null) {
 		if (id) {
 			setBoardData((prevData) => {
 				const newColumns = prevData.columns.map((column) => {
@@ -50,10 +51,10 @@ function CreateAndEditBoard({ action }: CreateAndEditBoardProps) {
 				};
 			});
 		}
-	};
+	}
 
 	// Event handler to handle add new column
-	const handleAddColumnClick = () => {
+	function handleAddColumnClick() {
 		setBoardData((prevData) => ({
 			...prevData,
 			columns: [
@@ -61,10 +62,10 @@ function CreateAndEditBoard({ action }: CreateAndEditBoardProps) {
 				{ name: '', id: crypto.randomUUID(), tasks: [] },
 			],
 		}));
-	};
+	}
 
 	// Helper function to handle delete column
-	const handleDeleteColumn = (id: string | null) => {
+	function handleDeleteColumn(id: string | null) {
 		if (id) {
 			setBoardData((prevData) => {
 				const filteredColumns = prevData.columns.filter(
@@ -77,10 +78,10 @@ function CreateAndEditBoard({ action }: CreateAndEditBoardProps) {
 				};
 			});
 		}
-	};
+	}
 
 	// Event handler to handle submit form event
-	const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
+	async function handleOnSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		try {
 			const data = await sendFetchRequest(
@@ -107,7 +108,7 @@ function CreateAndEditBoard({ action }: CreateAndEditBoardProps) {
 		} catch (err) {
 			// Empty blocks
 		}
-	};
+	}
 
 	return (
 		<>

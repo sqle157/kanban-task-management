@@ -7,10 +7,10 @@ function TaskCard({ task }: TaskCardProps) {
 	const { dispatch } = useBoardContext();
 	const { dispatch: modalDispatch } = useModalContext();
 
-	const handleViewTaskClick = () => {
+	function handleViewTaskClick() {
 		dispatch({ type: 'SET_TASK', payload: task });
 		modalDispatch({ type: 'OPEN_MODAL', payload: 'VIEW_TASK' });
-	};
+	}
 
 	return (
 		<button
