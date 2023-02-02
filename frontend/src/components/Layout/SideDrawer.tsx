@@ -12,17 +12,17 @@ function SideDrawer() {
 	const [activeBoard, setActiveBoard] = useState<string>('');
 
 	// Event handler to handle create board action
-	const handleCreateBoardClick = () => {
+	function handleCreateBoardClick() {
 		modalDispatch({ type: 'OPEN_MODAL', payload: 'CREATE_BOARD' });
-	};
+	}
 
 	return (
-		<div className='absolute bg-[#2B2C37] w-[300px] left-0 top-0 bottom-0 pr-6 border-r border-r-[#3E3F4E]'>
-			<div className='h-24 w-full flex items-center pl-[2.125rem]'>
+		<div className='absolute left-0 top-0 bottom-0 w-[300px] border-r border-r-[#3E3F4E] bg-[#2B2C37] pr-6'>
+			<div className='flex h-24 w-full items-center pl-[2.125rem]'>
 				<img src={logo} alt='Kanban board' />
 			</div>
 			<div className='mt-3'>
-				<h2 className='font-bold text-[#828FA3] uppercase text-xs tracking-[0.15rem] ml-8 mb-5'>
+				<h2 className='ml-8 mb-5 text-xs font-bold uppercase tracking-[0.15rem] text-[#828FA3]'>
 					All boards ({boards.length})
 				</h2>
 				{/* Board List */}
@@ -35,8 +35,9 @@ function SideDrawer() {
 					/>
 				))}
 				{/* Create new board */}
-				<div
-					className='cursor-pointer w-full h-12 flex items-center pl-8 gap-4'
+				<button
+					className='flex h-12 w-full cursor-pointer items-center gap-4 pl-8 text-[0.9375rem] font-bold capitalize leading-5 text-[#635FC7]'
+					type='button'
 					onClick={handleCreateBoardClick}>
 					<svg width='16' height='16' xmlns='http://www.w3.org/2000/svg'>
 						<path
@@ -44,10 +45,8 @@ function SideDrawer() {
 							fill='#635FC7'
 						/>
 					</svg>
-					<p className='font-bold text-[0.9375rem] leading-5 text-[#635FC7] capitalize'>
-						+ Create new board
-					</p>
-				</div>
+					+ Create new board
+				</button>
 			</div>
 		</div>
 	);

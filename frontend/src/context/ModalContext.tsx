@@ -1,4 +1,4 @@
-import { createContext, useReducer, PropsWithChildren } from 'react';
+import { createContext, useReducer, useMemo, PropsWithChildren } from 'react';
 import {
 	ModalInitialState,
 	ModalContextType,
@@ -30,14 +30,13 @@ const modalReducer = (state: ModalInitialState, action: MODAL_ACTION_TYPE) => {
 	}
 };
 
-const ModalContextProvider = ({ children }: PropsWithChildren) => {
+function ModalContextProvider({ children }: PropsWithChildren) {
 	const [state, dispatch] = useReducer(modalReducer, initialState);
+	const value = useMemo(() => ({ ...state, dispatch }), [state]);
 
 	return (
-		<ModalContext.Provider value={{ ...state, dispatch }}>
-			{children}
-		</ModalContext.Provider>
+		<ModalContext.Provider value={value}>{children}</ModalContext.Provider>
 	);
-};
+}
 
 export default ModalContextProvider;

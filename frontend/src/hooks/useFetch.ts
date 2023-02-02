@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 
 type MethodType = 'GET' | 'POST' | 'DELETE' | 'PATCH';
 
@@ -6,6 +6,8 @@ type MethodType = 'GET' | 'POST' | 'DELETE' | 'PATCH';
 export const useFetch = <T>() => {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
+
+	const activeRequest = useRef<AbortController[]>([]);
 
 	// Handle fetch request
 	const sendFetchRequest = useCallback(
@@ -18,8 +20,17 @@ export const useFetch = <T>() => {
 			setLoading(true);
 			setError(null);
 
+			// Set controller signal
+			const abortController = new AbortController();
+			activeRequest.current.push(abortController);
+
 			try {
-				const response = await fetch(url, { method, body, headers });
+				const response = await fetch(url, {
+					method,
+					body,
+					headers,
+					signal: abortController.signal,
+				});
 				const data = await response.json();
 
 				if (!response.ok) {
@@ -29,16 +40,31 @@ export const useFetch = <T>() => {
 				setLoading(false);
 
 				return data;
-			} catch (error) {
+			} catch (e) {
 				// set the error
-				if (error instanceof Error) {
-					setError(error.message);
+				if (
+					e instanceof Error &&
+					e.message !== 'The user aborted a request.' &&
+					e.message !== 'The operation was aborted. ' &&
+					e.message !== 'Fetch is aborted'
+				) {
+					// Catch & set the error
+					setError(e.message);
 					setLoading(false);
+					throw e;
 				}
 			}
 		},
 		[]
 	);
+
+	// abort the current request everytime the component re-renders
+	useEffect(() => {
+		// test
+		return () => {
+			activeRequest.current.forEach((request) => request.abort());
+		};
+	}, []);
 
 	return { loading, error, sendFetchRequest };
 };

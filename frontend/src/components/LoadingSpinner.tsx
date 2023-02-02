@@ -1,15 +1,15 @@
 // Interfaces
 import { LoadingSpinnerProps } from '../shared/types/interfaces';
 
-const LoadingSpinner = (props: LoadingSpinnerProps) => {
+function LoadingSpinner({ asOverlay }: LoadingSpinnerProps) {
 	return (
 		<div
 			className={`${
-				props.asOverlay &&
-				'flex justify-center items-center h-full w-full absolute top-0 left-0 bg-black/50'
+				asOverlay &&
+				'absolute top-0 left-0 flex h-full w-full items-center justify-center bg-black/50'
 			}`}>
-			<div className='animate-spin inline-block w-16 h-16 after:block after:w-[2.875rem] after:h-[2.875rem] after:m-[1px] after:rounded-full after:border-solid after:border-[5px] after:border-white after:border-t-white after:border-r-transparent after:border-b-white after:border-l-transparent'></div>
+			<div className='inline-block h-16 w-16 animate-spin after:m-[1px] after:block after:h-[2.875rem] after:w-[2.875rem] after:rounded-full after:border-[5px] after:border-solid after:border-white after:border-t-white after:border-r-transparent after:border-b-white after:border-l-transparent' />
 		</div>
 	);
-};
+}
 export default LoadingSpinner;
