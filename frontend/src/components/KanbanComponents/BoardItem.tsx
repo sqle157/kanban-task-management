@@ -1,12 +1,14 @@
 import ReactDOM from 'react-dom';
 import { useFetch } from '../../hooks/useFetch';
 import { useBoardContext } from '../../hooks/useBoardContext';
+import { useModalContext } from '../../hooks/useModalContext';
 // interfaces
 import { BoardItemProps, IBoard } from '../../shared/types/interfaces';
 import LoadingSpinner from '../LoadingSpinner';
 
 function BoardItem({ board, activeBoard, setActiveBoard }: BoardItemProps) {
 	const { dispatch } = useBoardContext();
+	const { dispatch: modalDispatch } = useModalContext();
 	const { sendFetchRequest, loading } = useFetch<IBoard>();
 
 	// Helper function to handle select the board
@@ -22,14 +24,15 @@ function BoardItem({ board, activeBoard, setActiveBoard }: BoardItemProps) {
 			} catch (error) {
 				/* empty */
 			}
+			modalDispatch({ type: 'CLOSE_MODAL' });
 		}
 	}
 
 	return (
 		<>
 			<button
-				className={`flex h-12 w-full cursor-pointer items-center gap-4 rounded-tr-[100px] rounded-br-[100px] pl-8 
-					text-[0.9375rem] font-bold capitalize leading-5 ${
+				className={`flex h-12 w-full cursor-pointer items-center gap-4 rounded-tr-[100px] rounded-br-[100px] pl-6 text-[0.9375rem] 
+					font-bold capitalize leading-5 sm:pl-8 ${
 						activeBoard !== board._id && 'hover:bg-white hover:text-[#635FC7]'
 					} ${
 					activeBoard === board._id

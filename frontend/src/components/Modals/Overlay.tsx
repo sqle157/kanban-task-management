@@ -14,7 +14,7 @@ function Overlay({ children }: PropsWithChildren) {
 	return ReactDOM.createPortal(
 		<div
 			id='overlay'
-			className='fixed inset-0 z-10 grid w-full place-items-center bg-black/50'>
+			className='fixed inset-0 z-10 grid w-full place-items-center overflow-auto bg-black/50'>
 			<div
 				className='mx-auto my-0 w-[min(30rem,100%-3rem)] bg-[#2B2C37] p-8'
 				ref={ref}>

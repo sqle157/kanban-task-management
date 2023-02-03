@@ -14,7 +14,7 @@ function TaskCard({ task }: TaskCardProps) {
 
 	return (
 		<button
-			className='mb-2 w-full cursor-pointer rounded-lg bg-[#2B2C37] px-4 py-6 text-start text-[.9375rem] font-bold leading-5 text-white shadow-md shadow-[rgba(54,78,126,0.101545)] hover:text-[#635FC7]'
+			className='mb-2 w-full cursor-pointer rounded-lg bg-[#2B2C37] px-4 py-6 text-start text-[.9375rem] font-bold leading-[19px] text-white shadow-md shadow-[rgba(54,78,126,0.101545)] hover:text-[#635FC7]'
 			type='button'
 			onClick={handleViewTaskClick}>
 			{task.title}

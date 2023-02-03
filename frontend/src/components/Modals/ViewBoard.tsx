@@ -1,28 +1,34 @@
-import { useState } from 'react';
+import ReactDOM from 'react-dom';
+import { useState, useRef } from 'react';
 import { useBoardContext } from '../../hooks/useBoardContext';
 import { useModalContext } from '../../hooks/useModalContext';
-// Component
+import { useOnClickOutside } from '../../hooks/useOnClickOutside';
+// Components
 import BoardItem from '../KanbanComponents/BoardItem';
-// Logo & Icons
-import logo from '../../assets/logo-light.svg';
 
-function SideDrawer() {
+function ViewBoard() {
 	const { boards } = useBoardContext();
 	const { dispatch: modalDispatch } = useModalContext();
 	const [activeBoard, setActiveBoard] = useState<string>('');
+	// useOnClickOutside reference
+	const ref = useRef(null);
+	useOnClickOutside<HTMLDivElement>(ref, () => {
+		modalDispatch({ type: 'CLOSE_MODAL' });
+	});
 
 	// Event handler to handle create board action
 	function handleCreateBoardClick() {
 		modalDispatch({ type: 'OPEN_MODAL', payload: 'CREATE_BOARD' });
 	}
 
-	return (
-		<div className='absolute left-0 top-0 bottom-0 hidden border-r border-r-[#3E3F4E] bg-[#2B2C37] pr-6 sm:block sm:w-[260px] lg:w-[300px]'>
-			<div className='flex h-24 w-full items-center pl-[2.125rem]'>
-				<img src={logo} alt='Kanban board' />
-			</div>
-			<div className='mt-3'>
-				<h2 className='ml-8 mb-5 text-xs font-bold uppercase tracking-[0.15rem] text-[#828FA3]'>
+	return ReactDOM.createPortal(
+		<div
+			id='overlay'
+			className='fixed inset-0 z-10 grid w-full place-items-start bg-black/50 py-20'>
+			<div
+				className='mx-auto my-0 w-[min(30rem,100%-3rem)] rounded-lg bg-[#2B2C37] py-6 pr-6'
+				ref={ref}>
+				<h2 className='mb-5 pl-6 text-xs font-bold uppercase tracking-[0.15rem] text-[#828FA3]'>
 					All boards ({boards.length})
 				</h2>
 				{/* Board List */}
@@ -36,7 +42,7 @@ function SideDrawer() {
 				))}
 				{/* Create new board */}
 				<button
-					className='flex h-12 w-full cursor-pointer items-center gap-4 pl-8 text-[0.9375rem] font-bold capitalize leading-5 text-[#635FC7]'
+					className='flex h-12 w-full cursor-pointer items-center gap-4 pl-6 text-[0.9375rem] font-bold capitalize leading-5 text-[#635FC7]'
 					type='button'
 					onClick={handleCreateBoardClick}>
 					<svg width='16' height='16' xmlns='http://www.w3.org/2000/svg'>
@@ -48,7 +54,8 @@ function SideDrawer() {
 					+ Create new board
 				</button>
 			</div>
-		</div>
+		</div>,
+		document.getElementById('modal') as HTMLElement
 	);
 }
-export default SideDrawer;
+export default ViewBoard;
