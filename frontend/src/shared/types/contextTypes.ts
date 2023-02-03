@@ -29,6 +29,7 @@ export type ModalInitialState = {
 };
 
 export type MODAL_PAYLOAD_TYPE =
+	| 'VIEW_BOARD'
 	| 'CREATE_BOARD'
 	| 'EDIT_BOARD'
 	| 'ADD_COLUMN'

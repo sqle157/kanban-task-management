@@ -22,10 +22,10 @@ function AddAndEditTask({ action }: AddAndEditTaskProps) {
 			title: '',
 			description: '',
 			subtasks: [],
-			status: board?.columns[0].name,
-			column: board?.columns[0]._id,
+			status: board?.columns[0].name as string,
+			column: board?.columns[0]._id as string,
 			boardId: board?._id,
-		} as ITask;
+		} satisfies ITask;
 	});
 
 	// Event handler to handle change title and description value

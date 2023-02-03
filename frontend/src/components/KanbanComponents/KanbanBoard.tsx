@@ -15,10 +15,12 @@ function KanbanBoard({ board }: KanbanBoardProps) {
 	// If there is no column
 	if (board.columns.length === 0) {
 		return (
-			<div className='flex h-full flex-col items-center justify-center gap-8'>
-				<h2>This board is empty. Create a new column to get started.</h2>
+			<div className='flex h-full flex-col items-center justify-center gap-6 text-center lg:gap-8'>
+				<h2 className='max-w-[30ch] text-sm sm:text-[1.125rem] sm:leading-[22px]'>
+					This board is empty. Create a new column to get started.
+				</h2>
 				<button
-					className='grid h-12 place-items-center rounded-3xl bg-[#635FC7] px-6 text-[0.9375rem] font-bold leading-5 text-white hover:bg-[#A8A4FF] disabled:opacity-25'
+					className='grid h-12 place-items-center rounded-3xl bg-[#635FC7] px-6 text-sm font-bold text-white hover:bg-[#A8A4FF] disabled:opacity-25 sm:text-[0.9375rem] sm:leading-5'
 					type='button'
 					onClick={handleAddColumnClick}>
 					+ Add New Column

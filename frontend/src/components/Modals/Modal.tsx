@@ -5,10 +5,15 @@ import CreateAndEditBoard from './CreateAndEditBoard';
 import DeleteModal from './DeleteModal';
 import AddAndEditTask from './AddAndEditTask';
 import ViewTask from './ViewTask';
+import ViewBoard from './ViewBoard';
 
 function Modal() {
 	const { modalAction } = useModalContext();
 
+	// View board action (in mobile only)
+	if (modalAction === 'VIEW_BOARD') {
+		return <ViewBoard />;
+	}
 	// Delete board and delete task action
 	if (modalAction === 'DELETE_BOARD' || modalAction === 'DELETE_TASK') {
 		return (

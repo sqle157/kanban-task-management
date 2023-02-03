@@ -22,7 +22,7 @@ function CreateAndEditBoard({ action }: CreateAndEditBoardProps) {
 		return {
 			name: '',
 			columns: [],
-		};
+		} satisfies IBoard;
 	});
 
 	// Event handler to handle change board name
@@ -115,7 +115,8 @@ function CreateAndEditBoard({ action }: CreateAndEditBoardProps) {
 			<form onSubmit={handleOnSubmit}>
 				<h2 className='mb-6 text-lg font-bold leading-6 text-white'>
 					{action === 'CREATE_BOARD' && 'Add New Board'}
-					{action === 'EDIT_BOARD' ? 'Edit Board' : 'Add Column'}
+					{action === 'EDIT_BOARD' && 'Edit Board'}
+					{action === 'ADD_COLUMN' && 'Add Column'}
 				</h2>
 				{action !== 'ADD_COLUMN' && (
 					<div className='relative mb-6'>
