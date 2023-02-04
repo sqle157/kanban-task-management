@@ -60,7 +60,6 @@ export const useFetch = <T>() => {
 
 	// abort the current request everytime the component re-renders
 	useEffect(() => {
-		// test
 		return () => {
 			activeRequest.current.forEach((request) => request.abort());
 		};

@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 // Interface
-import { ColumnProps } from '../../shared/types/interfaces';
+import { IColumn } from '../../shared/types/interfaces';
 // Component
 import TaskCard from './TaskCard';
 
@@ -8,7 +8,7 @@ function generateRandomLightColor() {
 	return `hsl(${Math.random() * 360}, 100%, 75%)`;
 }
 
-function Column({ column }: ColumnProps) {
+function Column({ column }: { column: IColumn }) {
 	return (
 		<div>
 			<div className='mb-6 flex items-center gap-3'>

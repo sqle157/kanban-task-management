@@ -1,10 +1,10 @@
 import { useModalContext } from '../../hooks/useModalContext';
 // Interfaces
-import { KanbanBoardProps } from '../../shared/types/interfaces';
+import { IBoard } from '../../shared/types/interfaces';
 // Components
 import Column from './Column';
 
-function KanbanBoard({ board }: KanbanBoardProps) {
+function KanbanBoard({ board }: { board: IBoard }) {
 	const { dispatch } = useModalContext();
 
 	// Event handler to handle add column action

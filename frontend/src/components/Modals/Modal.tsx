@@ -12,7 +12,13 @@ function Modal() {
 
 	// View board action (in mobile only)
 	if (modalAction === 'VIEW_BOARD') {
-		return <ViewBoard />;
+		return (
+			<Overlay
+				overlayClassName='fixed inset-0 z-10 grid w-full place-items-start bg-black/50 py-20'
+				containerClassName='mx-auto my-0 w-[min(30rem,100%-3rem)] rounded-lg bg-[#2B2C37] py-6 pr-6'>
+				<ViewBoard />
+			</Overlay>
+		);
 	}
 	// Delete board and delete task action
 	if (modalAction === 'DELETE_BOARD' || modalAction === 'DELETE_TASK') {

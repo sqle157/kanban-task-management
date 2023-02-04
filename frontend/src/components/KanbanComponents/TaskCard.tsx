@@ -1,12 +1,13 @@
 import { useModalContext } from '../../hooks/useModalContext';
 import { useBoardContext } from '../../hooks/useBoardContext';
 // Interface
-import { TaskCardProps } from '../../shared/types/interfaces';
+import { ITask } from '../../shared/types/interfaces';
 
-function TaskCard({ task }: TaskCardProps) {
+function TaskCard({ task }: { task: ITask }) {
 	const { dispatch } = useBoardContext();
 	const { dispatch: modalDispatch } = useModalContext();
 
+	// Event handler to handle view task click
 	function handleViewTaskClick() {
 		dispatch({ type: 'SET_TASK', payload: task });
 		modalDispatch({ type: 'OPEN_MODAL', payload: 'VIEW_TASK' });
