@@ -102,7 +102,7 @@ function Navbar() {
 			</div>
 			{openActionElement && (
 				<div
-					className='absolute right-6 top-[90%] z-10 flex h-[5.875rem] w-48 flex-col justify-between rounded-lg bg-[#20212C] p-4 shadow-sm shadow-white/5'
+					className='absolute right-4 top-[90%] z-10 flex h-[5.875rem] w-48 flex-col justify-between rounded-lg bg-[#20212C] p-4 shadow-sm shadow-white/5 sm:right-6'
 					ref={ref}>
 					<button
 						className='cursor-pointer text-start text-[0.8125rem] font-medium leading-6 text-[#828FA3]'
