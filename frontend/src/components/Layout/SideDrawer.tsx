@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useBoardContext } from '../../hooks/useBoardContext';
 import { useModalContext } from '../../hooks/useModalContext';
 // Component
@@ -9,7 +8,6 @@ import logo from '../../assets/logo-light.svg';
 function SideDrawer() {
 	const { boards } = useBoardContext();
 	const { dispatch: modalDispatch } = useModalContext();
-	const [activeBoard, setActiveBoard] = useState<string>('');
 
 	// Event handler to handle create board action
 	function handleCreateBoardClick() {
@@ -27,12 +25,7 @@ function SideDrawer() {
 				</h2>
 				{/* Board List */}
 				{boards.map((board) => (
-					<BoardItem
-						key={board._id}
-						board={board}
-						activeBoard={activeBoard}
-						setActiveBoard={setActiveBoard}
-					/>
+					<BoardItem key={board._id} board={board} />
 				))}
 				{/* Create new board */}
 				<button

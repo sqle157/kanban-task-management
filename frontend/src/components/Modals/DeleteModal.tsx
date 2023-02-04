@@ -11,6 +11,7 @@ function DeleteModal({ action }: DeleteModalProps) {
 	const { dispatch: modalDispatch } = useModalContext();
 	const { sendFetchRequest, loading } = useFetch<{ success: boolean }>();
 
+	// Helper function to handle delete click
 	async function handleDeleteClick() {
 		try {
 			const data = await sendFetchRequest(
@@ -35,6 +36,7 @@ function DeleteModal({ action }: DeleteModalProps) {
 		}
 	}
 
+	// Helper function to handle cancel click
 	function handleCancelClick() {
 		modalDispatch({ type: 'CLOSE_MODAL' });
 	}

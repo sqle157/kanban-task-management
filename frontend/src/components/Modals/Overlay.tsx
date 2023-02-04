@@ -1,9 +1,15 @@
 import ReactDOM from 'react-dom';
-import { PropsWithChildren, useRef } from 'react';
+import { useRef } from 'react';
 import { useModalContext } from '../../hooks/useModalContext';
 import { useOnClickOutside } from '../../hooks/useOnClickOutside';
+// Interfaces
+import { OverlayProps } from '../../shared/types/interfaces';
 
-function Overlay({ children }: PropsWithChildren) {
+function Overlay({
+	children,
+	overlayClassName,
+	containerClassName,
+}: OverlayProps) {
 	const { dispatch } = useModalContext();
 	// useOnClickOutside reference
 	const ref = useRef(null);
@@ -14,9 +20,15 @@ function Overlay({ children }: PropsWithChildren) {
 	return ReactDOM.createPortal(
 		<div
 			id='overlay'
-			className='fixed inset-0 z-10 grid w-full place-items-center overflow-auto bg-black/50'>
+			className={
+				overlayClassName ??
+				'fixed inset-0 z-10 grid w-full place-items-center overflow-auto bg-black/50'
+			}>
 			<div
-				className='mx-auto my-0 w-[min(30rem,100%-3rem)] bg-[#2B2C37] p-8'
+				className={
+					containerClassName ??
+					'mx-auto my-0 w-[min(30rem,100%-3rem)] bg-[#2B2C37] p-8'
+				}
 				ref={ref}>
 				{children}
 			</div>

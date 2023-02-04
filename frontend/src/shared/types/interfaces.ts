@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { MODAL_PAYLOAD_TYPE } from './contextTypes';
 
 // Subtask definition
@@ -16,7 +17,7 @@ export interface ITask {
 	status: string;
 	column: string;
 	subtasks: ISubtask[];
-	boardId?: string;
+	boardId: string;
 }
 
 // Column definition
@@ -39,24 +40,11 @@ export interface LoadingSpinnerProps {
 	asOverlay?: boolean;
 }
 
-// KanbanBoard Props
-export interface KanbanBoardProps {
-	board: IBoard;
-}
-
-// Column Props
-export interface ColumnProps {
-	column: IColumn;
-}
-
-// TaskCard Props
-export interface TaskCardProps {
-	task: ITask;
-}
-
-export interface BoardItemProps extends KanbanBoardProps {
-	activeBoard: string;
-	setActiveBoard: React.Dispatch<React.SetStateAction<string>>;
+// Overlay Props
+export interface OverlayProps {
+	children?: ReactNode;
+	overlayClassName?: string;
+	containerClassName?: string;
 }
 
 // DeleteModal Props
@@ -69,6 +57,7 @@ export interface DeleteModalProps {
 		| 'ADD_COLUMN'
 		| 'EDIT_BOARD'
 		| 'CREATE_BOARD'
+		| 'VIEW_BOARD'
 	>;
 }
 
@@ -76,7 +65,12 @@ export interface DeleteModalProps {
 export interface CreateAndEditBoardProps {
 	action: Exclude<
 		MODAL_PAYLOAD_TYPE,
-		'DELETE_BOARD' | 'ADD_TASK' | 'EDIT_TASK' | 'DELETE_TASK' | 'VIEW_TASK'
+		| 'DELETE_BOARD'
+		| 'ADD_TASK'
+		| 'EDIT_TASK'
+		| 'DELETE_TASK'
+		| 'VIEW_TASK'
+		| 'VIEW_BOARD'
 	>;
 }
 
@@ -90,5 +84,6 @@ export interface AddAndEditTaskProps {
 		| 'DELETE_TASK'
 		| 'ADD_COLUMN'
 		| 'VIEW_TASK'
+		| 'VIEW_BOARD'
 	>;
 }
