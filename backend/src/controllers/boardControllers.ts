@@ -40,7 +40,7 @@ export const getSingleBoard: RequestHandler<{ boardId: string }> = asyncHandler(
 
 		// Add the tasks to each column accordingly
 		for (const column of board.columns) {
-			const tasks = await Task.find({ column });
+			const tasks = await Task.find({ column }).sort('position');
 
 			column.tasks = tasks;
 		}

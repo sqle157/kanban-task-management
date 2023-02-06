@@ -13,6 +13,7 @@ export interface ITask {
 	description?: string;
 	status: string;
 	column: Types.ObjectId;
+	position: number;
 	subtasks: Types.DocumentArray<ISubtask>;
 }
 
@@ -33,6 +34,10 @@ const taskSchema = new Schema<ITask>({
 		type: Schema.Types.ObjectId,
 		required: true,
 		ref: 'Column',
+	},
+	position: {
+		type: Number,
+		required: true,
 	},
 	subtasks: [
 		{

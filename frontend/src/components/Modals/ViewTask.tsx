@@ -6,11 +6,13 @@ import { useFetch } from '../../hooks/useFetch';
 // Icons
 import verticalEllipse from '../../assets/icon-vertical-ellipsis.svg';
 import { ITask } from '../../shared/types/interfaces';
+// Components
+import LoadingSpinner from '../LoadingSpinner';
 
 function ViewTask() {
 	const { board, task, dispatch } = useBoardContext();
 	const { dispatch: modalDispatch } = useModalContext();
-	const { sendFetchRequest } = useFetch<ITask>();
+	const { sendFetchRequest, loading } = useFetch<ITask>();
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	const [taskData, setTaskData] = useState<ITask>({ ...task! });
 	const [openActionElement, setOpenActionElement] = useState<boolean>(false);
@@ -78,12 +80,13 @@ function ViewTask() {
 	}
 
 	// Event handler to handle status change
-	function handleChangeStatus(name: string, id: string) {
+	function handleChangeStatus(name: string, id: string, position: number) {
 		if (id) {
 			setTaskData((prevData) => ({
 				...prevData,
 				status: name,
 				column: id,
+				position,
 			}));
 
 			setIsSelectStatus(false);
@@ -200,7 +203,11 @@ function ViewTask() {
 									className='cursor-pointer text-start text-[0.8125rem] font-medium leading-6 text-[#828FA3]'
 									type='button'
 									onClick={() =>
-										handleChangeStatus(column.name, column._id ?? '')
+										handleChangeStatus(
+											column.name,
+											column._id ?? '',
+											column.tasks.length
+										)
 									}>
 									{column.name}
 								</button>
@@ -208,6 +215,8 @@ function ViewTask() {
 						</div>
 					)}
 				</div>
+
+				{loading && <LoadingSpinner asOverlay />}
 			</>
 		)
 	);

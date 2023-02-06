@@ -12,7 +12,7 @@ import {
 	BoardContextType,
 	BOARD_ACTION_TYPE,
 } from '../shared/types/contextTypes';
-import { IBoard, IColumn, ITask } from '../shared/types/interfaces';
+import { IBoard, IColumn } from '../shared/types/interfaces';
 // Components
 import LoadingSpinner from '../components/LoadingSpinner';
 
@@ -79,8 +79,10 @@ const boardReducer = (state: BoardInitialState, action: BOARD_ACTION_TYPE) => {
 			};
 		}
 		case 'ADD_TASK': {
+			let newCurrentColumns: IColumn[] | undefined = [];
+
 			// Add the task to the column
-			const newCurrentColumns = state.board?.columns.map((column) => {
+			newCurrentColumns = state.board?.columns.map((column) => {
 				if (column._id === action.payload.column) {
 					const newColumn = {
 						...column,
@@ -96,9 +98,7 @@ const boardReducer = (state: BoardInitialState, action: BOARD_ACTION_TYPE) => {
 			// Update the current board
 			const newCurrentBoard = {
 				...state.board,
-				columns: newCurrentColumns
-					? [...newCurrentColumns]
-					: state.board && [...state.board.columns],
+				columns: newCurrentColumns as IColumn[],
 			};
 
 			// Update the board list
@@ -138,9 +138,7 @@ const boardReducer = (state: BoardInitialState, action: BOARD_ACTION_TYPE) => {
 			// Update the current board
 			const newCurrentBoard = {
 				...state.board,
-				columns: newCurrentColumns
-					? [...newCurrentColumns]
-					: state.board && [...state.board.columns],
+				columns: newCurrentColumns as IColumn[],
 			};
 
 			// Update the board list
@@ -161,11 +159,11 @@ const boardReducer = (state: BoardInitialState, action: BOARD_ACTION_TYPE) => {
 			} as BoardInitialState;
 		}
 		case 'UPDATE_TASK': {
-			let newCurrentColumns: IColumn[] | undefined;
+			let newCurrentColumns: IColumn[] | undefined = [];
 			// If the column status hasn't changed
 			if (state.task?.column === action.payload.column) {
 				newCurrentColumns = state.board?.columns.map((column) => {
-					if (column._id === action.payload?.column) {
+					if (column._id === action.payload.column) {
 						const newColumn = {
 							...column,
 							tasks: [...column.tasks].map((task) => {
@@ -220,9 +218,7 @@ const boardReducer = (state: BoardInitialState, action: BOARD_ACTION_TYPE) => {
 			// Update the current board
 			const newCurrentBoard = {
 				...state.board,
-				columns: newCurrentColumns
-					? [...newCurrentColumns]
-					: state.board && [...state.board.columns],
+				columns: newCurrentColumns as IColumn[],
 			};
 
 			// Update the board list
