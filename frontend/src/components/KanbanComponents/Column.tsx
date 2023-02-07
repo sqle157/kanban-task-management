@@ -28,35 +28,37 @@ function Column({ column }: { column: IColumn }) {
 		position: number
 	) {
 		setDroppable(false);
-
-		// Update the UI
-		dispatch({
-			type: 'UPDATE_TASK',
-			payload: {
-				...task,
-				status,
-				column: columnId,
-				position,
-			} as ITask,
-		});
-
-		// Update the database
-		try {
-			await sendFetchRequest(
-				`api/tasks/${task?._id}`,
-				'PATCH',
-				JSON.stringify({
+		// If task is moved to another column
+		if (task && task.column !== columnId) {
+			// Update the UI
+			dispatch({
+				type: 'UPDATE_TASK',
+				payload: {
 					...task,
 					status,
 					column: columnId,
 					position,
-				}),
-				{
-					'Content-Type': 'application/json',
-				}
-			);
-		} catch (error) {
-			// Empty
+				} as ITask,
+			});
+
+			// Update the database
+			try {
+				await sendFetchRequest(
+					`api/tasks/${task?._id}`,
+					'PATCH',
+					JSON.stringify({
+						...task,
+						status,
+						column: columnId,
+						position,
+					}),
+					{
+						'Content-Type': 'application/json',
+					}
+				);
+			} catch (error) {
+				// Empty
+			}
 		}
 	}
 
