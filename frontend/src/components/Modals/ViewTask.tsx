@@ -6,20 +6,17 @@ import { useFetch } from '../../hooks/useFetch';
 // Icons
 import verticalEllipse from '../../assets/icon-vertical-ellipsis.svg';
 import { ITask } from '../../shared/types/interfaces';
-// Components
-import LoadingSpinner from '../LoadingSpinner';
 
 function ViewTask() {
 	const { board, task, dispatch } = useBoardContext();
 	const { dispatch: modalDispatch } = useModalContext();
-	const { sendFetchRequest, loading } = useFetch<ITask>();
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	const [taskData, setTaskData] = useState<ITask>({ ...task! });
+	const { sendFetchRequest } = useFetch<ITask>();
+	const [taskData, setTaskData] = useState<ITask>({ ...task } as ITask);
 	const [openActionElement, setOpenActionElement] = useState<boolean>(false);
 	const [isSelectStatus, setIsSelectStatus] = useState<boolean>(false);
 	// useOnClickOutside reference
-	const ref = useRef(null);
-	useOnClickOutside<HTMLDivElement>(ref, () => {
+	const actionRef = useRef(null);
+	useOnClickOutside<HTMLDivElement>(actionRef, () => {
 		setOpenActionElement(false);
 	});
 
@@ -27,7 +24,7 @@ function ViewTask() {
 	useEffect(() => {
 		async function updateTask() {
 			try {
-				const data = await sendFetchRequest(
+				await sendFetchRequest(
 					`api/tasks/${task?._id}`,
 					'PATCH',
 					JSON.stringify(taskData),
@@ -35,16 +32,16 @@ function ViewTask() {
 						'Content-Type': 'application/json',
 					}
 				);
-
-				if (data) {
-					dispatch({ type: 'UPDATE_TASK', payload: data });
-				}
 			} catch (error) {
 				/* empty */
 			}
 		}
 
+		// Update the database
 		updateTask();
+
+		// Update the UI
+		dispatch({ type: 'UPDATE_TASK', payload: taskData });
 	}, [taskData]);
 
 	// Event handler to handle checkbox click
@@ -109,7 +106,7 @@ function ViewTask() {
 					{openActionElement && (
 						<div
 							className='absolute -right-[6rem] top-[calc(100%+20px)] flex h-[5.875rem] w-48 flex-col justify-between rounded-lg bg-[#20212C] p-4 shadow-sm shadow-white/5'
-							ref={ref}>
+							ref={actionRef}>
 							<button
 								className='w-full cursor-pointer text-start text-[0.8125rem] font-medium leading-6 text-[#828FA3]'
 								type='button'
@@ -215,8 +212,6 @@ function ViewTask() {
 						</div>
 					)}
 				</div>
-
-				{loading && <LoadingSpinner asOverlay />}
 			</>
 		)
 	);
