@@ -11,13 +11,12 @@ function ViewTask() {
 	const { board, task, dispatch } = useBoardContext();
 	const { dispatch: modalDispatch } = useModalContext();
 	const { sendFetchRequest } = useFetch<ITask>();
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	const [taskData, setTaskData] = useState<ITask>({ ...task! });
+	const [taskData, setTaskData] = useState<ITask>({ ...task } as ITask);
 	const [openActionElement, setOpenActionElement] = useState<boolean>(false);
 	const [isSelectStatus, setIsSelectStatus] = useState<boolean>(false);
 	// useOnClickOutside reference
-	const ref = useRef(null);
-	useOnClickOutside<HTMLDivElement>(ref, () => {
+	const actionRef = useRef(null);
+	useOnClickOutside<HTMLDivElement>(actionRef, () => {
 		setOpenActionElement(false);
 	});
 
@@ -25,7 +24,7 @@ function ViewTask() {
 	useEffect(() => {
 		async function updateTask() {
 			try {
-				const data = await sendFetchRequest(
+				await sendFetchRequest(
 					`api/tasks/${task?._id}`,
 					'PATCH',
 					JSON.stringify(taskData),
@@ -33,16 +32,16 @@ function ViewTask() {
 						'Content-Type': 'application/json',
 					}
 				);
-
-				if (data) {
-					dispatch({ type: 'UPDATE_TASK', payload: data });
-				}
 			} catch (error) {
 				/* empty */
 			}
 		}
 
+		// Update the database
 		updateTask();
+
+		// Update the UI
+		dispatch({ type: 'UPDATE_TASK', payload: taskData });
 	}, [taskData]);
 
 	// Event handler to handle checkbox click
@@ -78,12 +77,13 @@ function ViewTask() {
 	}
 
 	// Event handler to handle status change
-	function handleChangeStatus(name: string, id: string) {
+	function handleChangeStatus(name: string, id: string, position: number) {
 		if (id) {
 			setTaskData((prevData) => ({
 				...prevData,
 				status: name,
 				column: id,
+				position,
 			}));
 
 			setIsSelectStatus(false);
@@ -106,7 +106,7 @@ function ViewTask() {
 					{openActionElement && (
 						<div
 							className='absolute -right-[6rem] top-[calc(100%+20px)] flex h-[5.875rem] w-48 flex-col justify-between rounded-lg bg-[#20212C] p-4 shadow-sm shadow-white/5'
-							ref={ref}>
+							ref={actionRef}>
 							<button
 								className='w-full cursor-pointer text-start text-[0.8125rem] font-medium leading-6 text-[#828FA3]'
 								type='button'
@@ -200,7 +200,11 @@ function ViewTask() {
 									className='cursor-pointer text-start text-[0.8125rem] font-medium leading-6 text-[#828FA3]'
 									type='button'
 									onClick={() =>
-										handleChangeStatus(column.name, column._id ?? '')
+										handleChangeStatus(
+											column.name,
+											column._id ?? '',
+											column.tasks.length
+										)
 									}>
 									{column.name}
 								</button>

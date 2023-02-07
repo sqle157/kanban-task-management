@@ -18,6 +18,7 @@ function AddAndEditTask({ action }: AddAndEditTaskProps) {
 			};
 		}
 
+		// return new TaskData for Add Task action
 		return {
 			title: '',
 			description: '',
@@ -93,12 +94,17 @@ function AddAndEditTask({ action }: AddAndEditTaskProps) {
 	}
 
 	// Event handler to handle status change
-	function handleChangeStatus(name: string, id: string | null) {
+	function handleChangeStatus(
+		name: string,
+		id: string | null,
+		position: number
+	) {
 		if (id) {
 			setTaskData((prevData) => ({
 				...prevData,
 				status: name,
 				column: id,
+				position,
 			}));
 		}
 
@@ -247,7 +253,11 @@ function AddAndEditTask({ action }: AddAndEditTaskProps) {
 								className='cursor-pointer text-start text-[0.8125rem] font-medium leading-6 text-[#828FA3]'
 								type='button'
 								onClick={() =>
-									handleChangeStatus(column.name, column._id ?? null)
+									handleChangeStatus(
+										column.name,
+										column._id ?? null,
+										column.tasks.length
+									)
 								}>
 								{column.name}
 							</button>
