@@ -102,10 +102,12 @@ export const updateTask: RequestHandler<
 		status: string;
 		column: string;
 		position: number;
+		targetId?: string;
 	}
 > = asyncHandler(async (req, res) => {
 	const { taskId } = req.params;
-	const { title, description, subtasks, status, column, position } = req.body;
+	const { title, description, subtasks, status, column, position, targetId } =
+		req.body;
 
 	// Save the old version of the task before update
 	const task = await Task.findById(taskId);
@@ -163,19 +165,44 @@ export const updateTask: RequestHandler<
 				);
 			}
 		}
+
+		// Update the destination task list
+		for (const key of destinationTaskList.keys()) {
+			if (
+				!(await Task.findByIdAndUpdate(destinationTaskList[key]._id, {
+					position:
+						destinationTaskList[key].id !== taskId &&
+						destinationTaskList[key].position >= updatedTask.position
+							? destinationTaskList[key].position + 1
+							: destinationTaskList[key].position,
+				}))
+			) {
+				res.status(401);
+				throw new Error(
+					'Something is wrong with updating in the desitnation task list!'
+				);
+			}
+		}
 	}
 
 	// Update the destination task list
-	for (const key of destinationTaskList.keys()) {
-		if (
-			!(await Task.findByIdAndUpdate(destinationTaskList[key]._id, {
-				position: key,
-			}))
-		) {
-			res.status(401);
-			throw new Error(
-				'Something is wrong with updating in the desitnation task list!'
-			);
+	// If the column hasn't changed
+	if (task.column.toString() === column) {
+		for (const key of destinationTaskList.keys()) {
+			if (
+				task.position !== updatedTask.position &&
+				!(await Task.findByIdAndUpdate(destinationTaskList[key]._id, {
+					position:
+						destinationTaskList[key].id === targetId
+							? task.position
+							: destinationTaskList[key].position,
+				}))
+			) {
+				res.status(401);
+				throw new Error(
+					'Something is wrong with updating in the desitnation task list!'
+				);
+			}
 		}
 	}
 

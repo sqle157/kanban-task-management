@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from 'react';
+import { CSSProperties, useState, DragEvent } from 'react';
 import { useBoardContext } from '../../hooks/useBoardContext';
 import { useFetch } from '../../hooks/useFetch';
 // Interface
@@ -11,12 +11,12 @@ function generateRandomLightColor() {
 }
 
 function Column({ column }: { column: IColumn }) {
-	const { task, dispatch } = useBoardContext();
+	const { task, isTargetedTask, dispatch } = useBoardContext();
 	const [droppable, setDroppable] = useState<boolean>(false);
 	const { sendFetchRequest } = useFetch<ITask>();
 
 	// Event handler to handle drag over
-	function handleDragOver(e: React.DragEvent) {
+	function handleDragOver(e: DragEvent) {
 		e.preventDefault();
 		setDroppable(true);
 	}
@@ -29,7 +29,8 @@ function Column({ column }: { column: IColumn }) {
 	) {
 		setDroppable(false);
 		// If task is moved to another column
-		if (task && task.column !== columnId) {
+		// And there is no target task to replace
+		if (task && task.column !== columnId && !isTargetedTask) {
 			// Update the UI
 			dispatch({
 				type: 'UPDATE_TASK',

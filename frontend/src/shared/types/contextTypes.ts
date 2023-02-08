@@ -5,6 +5,7 @@ export type BoardInitialState = {
 	boards: IBoard[];
 	board: IBoard | null;
 	task: ITask | null;
+	isTargetedTask: boolean; // for drag and drop
 };
 
 export type BOARD_ACTION_TYPE =
@@ -14,6 +15,7 @@ export type BOARD_ACTION_TYPE =
 	| { type: 'UPDATE_BOARD'; payload: IBoard }
 	| { type: 'DELETE_BOARD'; payload: string }
 	| { type: 'SET_TASK'; payload: ITask }
+	| { type: 'SET_TARGETED_TASK'; payload: boolean }
 	| { type: 'ADD_TASK'; payload: ITask }
 	| { type: 'UPDATE_TASK'; payload: ITask }
 	| { type: 'DELETE_TASK'; payload: string };

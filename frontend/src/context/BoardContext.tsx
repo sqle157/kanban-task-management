@@ -20,6 +20,7 @@ const initialState: BoardInitialState = {
 	boards: [],
 	board: null,
 	task: null,
+	isTargetedTask: false,
 };
 
 export const BoardContext = createContext<BoardContextType | null>(null);
@@ -78,6 +79,12 @@ const boardReducer = (state: BoardInitialState, action: BOARD_ACTION_TYPE) => {
 				task: action.payload,
 			};
 		}
+		case 'SET_TARGETED_TASK': {
+			return {
+				...state,
+				isTargetedTask: action.payload,
+			};
+		}
 		case 'ADD_TASK': {
 			let newCurrentColumns: IColumn[] | undefined = [];
 
@@ -116,6 +123,7 @@ const boardReducer = (state: BoardInitialState, action: BOARD_ACTION_TYPE) => {
 				boards: [...newBoards],
 				board: { ...newCurrentBoard },
 				task: null,
+				isTargetedTask: false,
 			} as BoardInitialState;
 		}
 		case 'DELETE_TASK': {
@@ -156,6 +164,7 @@ const boardReducer = (state: BoardInitialState, action: BOARD_ACTION_TYPE) => {
 				boards: [...newBoards],
 				board: { ...newCurrentBoard },
 				task: null,
+				isTargetedTask: false,
 			} as BoardInitialState;
 		}
 		case 'UPDATE_TASK': {
@@ -166,15 +175,25 @@ const boardReducer = (state: BoardInitialState, action: BOARD_ACTION_TYPE) => {
 					if (column._id === action.payload.column) {
 						const newColumn = {
 							...column,
-							tasks: [...column.tasks].map((task) => {
-								if (task._id === action.payload._id) {
-									const newTask = { ...action.payload };
+							tasks: [...column.tasks]
+								.map((task) => {
+									if (task._id === action.payload._id) {
+										const newTask = { ...action.payload };
 
-									return newTask;
-								}
+										return newTask;
+									}
 
-								return task;
-							}),
+									return {
+										...task,
+										position:
+											(task.position as number) === action.payload.position
+												? (state.task?.position as number)
+												: task.position,
+									};
+								})
+								.sort(
+									(a, b) => (a.position as number) - (b.position as number)
+								),
 						};
 
 						return newColumn;
@@ -193,9 +212,19 @@ const boardReducer = (state: BoardInitialState, action: BOARD_ACTION_TYPE) => {
 					if (column._id === state.task?.column) {
 						newColumn = {
 							...column,
-							tasks: column.tasks.filter(
-								(task) => task._id !== state.task?._id
-							),
+							tasks: column.tasks
+								// Filter out the task
+								.filter((task) => task._id !== state.task?._id)
+								.map((task, index) => {
+									// Update the position of the remaining tasks
+									return {
+										...task,
+										position: index,
+									};
+								})
+								.sort(
+									(a, b) => (a.position as number) - (b.position as number)
+								),
 						};
 
 						return newColumn;
@@ -205,7 +234,31 @@ const boardReducer = (state: BoardInitialState, action: BOARD_ACTION_TYPE) => {
 					if (column._id === action.payload.column) {
 						newColumn = {
 							...column,
-							tasks: [...column.tasks, action.payload],
+							// Add the current task to the new column
+							tasks: [...column.tasks, action.payload]
+								.map((task) => {
+									// If there is a target task
+									// and we want to insert the new task to the position of the target task
+									// increase the position of the tasks that followed by 1
+									if (
+										state.isTargetedTask &&
+										task._id !== action.payload._id &&
+										(task.position as number) >=
+											(action.payload.position as number)
+									) {
+										const newTask = {
+											...task,
+											position: (task.position as number) + 1,
+										};
+
+										return newTask;
+									}
+
+									return task;
+								})
+								.sort(
+									(a, b) => (a.position as number) - (b.position as number)
+								),
 						};
 
 						return newColumn;
@@ -236,6 +289,7 @@ const boardReducer = (state: BoardInitialState, action: BOARD_ACTION_TYPE) => {
 				boards: [...newBoards],
 				board: { ...newCurrentBoard },
 				task: action.payload,
+				isTargetedTask: false,
 			} as BoardInitialState;
 		}
 		default:
