@@ -4,12 +4,12 @@
 	"description": "A kanban-style task management web app",
 	"main": "server.js",
 	"scripts": {
-		"start": "node backend/build/server.js",
+		"start": "npm run build-backend && node backend/build/server.js",
 		"build-backend": "rimraf backend/build && cd backend && tsc",
 		"server": "nodemon backend/src/server.ts",
 		"client": "npm run dev --prefix frontend",
 		"dev": "concurrently \"npm run server\" \"npm run client\"",
-		"render-postbuild": "npm run build-backend && npm install --prefix frontend && npm run build --prefix frontend && npm install"
+		"render-postbuild": "npm install --prefix frontend && npm run build --prefix frontend && npm install"
 	},
 	"keywords": [],
 	"author": "",
