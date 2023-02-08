@@ -19,7 +19,7 @@ Users should be able to:
 ### Links
 
 - Solution URL: [Github](https://github.com/sqle157/kanban-task-management)
-- Live Site URL: [Render](https://kanban-task-management-webapp.onrender.com/)
+- Live Site URL: [Railway](https://kanban-task-management-production.up.railway.app/)
 
 ### Built with
 
