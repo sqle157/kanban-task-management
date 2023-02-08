@@ -41,7 +41,10 @@ function ViewTask() {
 		updateTask();
 
 		// Update the UI
-		dispatch({ type: 'UPDATE_TASK', payload: taskData });
+		dispatch({
+			type: 'UPDATE_TASK',
+			payload: taskData,
+		});
 	}, [taskData]);
 
 	// Event handler to handle checkbox click
@@ -105,7 +108,7 @@ function ViewTask() {
 					</button>
 					{openActionElement && (
 						<div
-							className='absolute -right-[6rem] top-[calc(100%+20px)] flex h-[5.875rem] w-48 flex-col justify-between rounded-lg bg-[#20212C] p-4 shadow-sm shadow-white/5'
+							className='absolute -right-[6rem] top-[calc(100%+20px)] z-10 flex h-[5.875rem] w-48 flex-col justify-between rounded-lg bg-[#20212C] p-4 shadow-sm shadow-white/5'
 							ref={actionRef}>
 							<button
 								className='w-full cursor-pointer text-start text-[0.8125rem] font-medium leading-6 text-[#828FA3]'
