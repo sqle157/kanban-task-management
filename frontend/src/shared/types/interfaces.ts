@@ -16,7 +16,7 @@ export interface ITask {
 	description: string;
 	status: string;
 	column: string;
-	position?: number;
+	position: number;
 	subtasks: ISubtask[];
 	boardId: string;
 }

@@ -91,7 +91,7 @@ function TaskCard({ task }: { task: ITask }) {
 	return (
 		<div
 			className={`${
-				droppable ? 'bg-[white]/50' : 'bg-[#2B2C37]'
+				droppable ? 'bg-white/25' : 'bg-[#2B2C37]'
 			} mb-2 w-full cursor-pointer rounded-lg px-4 py-6 text-start text-[.9375rem] font-bold leading-[19px] text-white shadow-md shadow-[rgba(54,78,126,0.101545)] hover:text-[#635FC7]`}
 			draggable
 			onDragStart={handleOnDrag}

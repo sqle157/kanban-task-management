@@ -1,4 +1,4 @@
-import { CSSProperties, useState, DragEvent } from 'react';
+import { CSSProperties, useState, DragEvent, useEffect } from 'react';
 import { useBoardContext } from '../../hooks/useBoardContext';
 import { useFetch } from '../../hooks/useFetch';
 // Interface
@@ -11,9 +11,15 @@ function generateRandomLightColor() {
 }
 
 function Column({ column }: { column: IColumn }) {
+	const { sendFetchRequest } = useFetch<ITask>();
 	const { task, isTargetedTask, dispatch } = useBoardContext();
 	const [droppable, setDroppable] = useState<boolean>(false);
-	const { sendFetchRequest } = useFetch<ITask>();
+	const [randomBg, setRandomBg] = useState<string>('');
+
+	// Run the effect once on every render
+	useEffect(() => {
+		setRandomBg(generateRandomLightColor());
+	}, []);
 
 	// Event handler to handle drag over
 	function handleDragOver(e: DragEvent) {
@@ -76,7 +82,7 @@ function Column({ column }: { column: IColumn }) {
 			<div className='mb-6 flex items-center gap-3'>
 				<span
 					className='inline-block h-[0.9735rem] w-[0.9375rem] rounded-full bg-[var(--randomBg)]'
-					style={{ '--randomBg': generateRandomLightColor() } as CSSProperties}
+					style={{ '--randomBg': randomBg } as CSSProperties}
 				/>
 				<h2 className='text-xs uppercase leading-[.9375rem] tracking-[.15rem] text-[#828FA3]'>
 					{column.name} ({column.tasks?.length})
