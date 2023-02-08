@@ -5,10 +5,11 @@
 	"main": "server.js",
 	"scripts": {
 		"start": "node backend/build/server.js",
-		"build": "rimraf backend/build && cd backend && tsc",
+		"build-backend": "rimraf backend/build && cd backend && tsc",
 		"server": "nodemon backend/src/server.ts",
 		"client": "npm run dev --prefix frontend",
-		"dev": "concurrently \"npm run server\" \"npm run client\""
+		"dev": "concurrently \"npm run server\" \"npm run client\"",
+		"render-postbuild": "npm install && npm run build-backend && npm install --prefix frontend && npm run build --prefix frontend"
 	},
 	"keywords": [],
 	"author": "",
