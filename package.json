@@ -9,7 +9,7 @@
 		"server": "nodemon backend/src/server.ts",
 		"client": "npm run dev --prefix frontend",
 		"dev": "concurrently \"npm run server\" \"npm run client\"",
-		"render-postbuild": "npm install && npm run build-backend && npm install --prefix frontend && npm run build --prefix frontend"
+		"render-postbuild": "npm run build-backend && npm install --prefix frontend && npm run build --prefix frontend && npm install"
 	},
 	"keywords": [],
 	"author": "",
