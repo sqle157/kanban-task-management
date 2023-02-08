@@ -186,14 +186,12 @@ const boardReducer = (state: BoardInitialState, action: BOARD_ACTION_TYPE) => {
 									return {
 										...task,
 										position:
-											(task.position as number) === action.payload.position
-												? (state.task?.position as number)
+											state.task && task.position === action.payload.position
+												? state.task?.position
 												: task.position,
 									};
 								})
-								.sort(
-									(a, b) => (a.position as number) - (b.position as number)
-								),
+								.sort((a, b) => a.position - b.position),
 						};
 
 						return newColumn;
@@ -222,9 +220,7 @@ const boardReducer = (state: BoardInitialState, action: BOARD_ACTION_TYPE) => {
 										position: index,
 									};
 								})
-								.sort(
-									(a, b) => (a.position as number) - (b.position as number)
-								),
+								.sort((a, b) => a.position - b.position),
 						};
 
 						return newColumn;
@@ -243,12 +239,11 @@ const boardReducer = (state: BoardInitialState, action: BOARD_ACTION_TYPE) => {
 									if (
 										state.isTargetedTask &&
 										task._id !== action.payload._id &&
-										(task.position as number) >=
-											(action.payload.position as number)
+										task.position >= action.payload.position
 									) {
 										const newTask = {
 											...task,
-											position: (task.position as number) + 1,
+											position: task.position + 1,
 										};
 
 										return newTask;
@@ -256,9 +251,7 @@ const boardReducer = (state: BoardInitialState, action: BOARD_ACTION_TYPE) => {
 
 									return task;
 								})
-								.sort(
-									(a, b) => (a.position as number) - (b.position as number)
-								),
+								.sort((a, b) => a.position - b.position),
 						};
 
 						return newColumn;

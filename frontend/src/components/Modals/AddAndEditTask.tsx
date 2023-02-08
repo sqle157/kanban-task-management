@@ -25,6 +25,7 @@ function AddAndEditTask({ action }: AddAndEditTaskProps) {
 			subtasks: [],
 			status: board?.columns[0].name as string,
 			column: board?.columns[0]._id as string,
+			position: board?.columns[0].tasks.length as number,
 			boardId: board?._id as string,
 		} satisfies ITask;
 	});
