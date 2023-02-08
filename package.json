@@ -4,7 +4,7 @@
 	"description": "A kanban-style task management web app",
 	"main": "server.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node backend/build/server.js",
 		"build": "rimraf backend/build && cd backend && tsc",
 		"server": "nodemon backend/src/server.ts",
 		"client": "npm run dev --prefix frontend",
