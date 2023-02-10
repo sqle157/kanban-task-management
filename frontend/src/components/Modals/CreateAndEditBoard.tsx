@@ -187,7 +187,6 @@ function CreateAndEditBoard({ action }: CreateAndEditBoardProps) {
 					<button
 						className='h-10 w-full rounded-[1.25rem] bg-white text-[.8125rem] font-bold leading-6 text-[#635FC7]'
 						onClick={handleAddColumnClick}
-						aria-label='add new column'
 						type='button'>
 						+ Add New Column
 					</button>
@@ -195,11 +194,6 @@ function CreateAndEditBoard({ action }: CreateAndEditBoardProps) {
 
 				<button
 					className='h-10 w-full rounded-[1.25rem] bg-[#635FC7] text-[.8125rem] font-bold leading-6 text-white hover:bg-[#A8A4FF]'
-					aria-label={
-						action === 'EDIT_BOARD' || action === 'ADD_COLUMN'
-							? 'Save Changes'
-							: 'Create New Board'
-					}
 					type='submit'>
 					{action === 'EDIT_BOARD' || action === 'ADD_COLUMN'
 						? 'Save Changes'

@@ -24,7 +24,6 @@ function ViewBoard() {
 			{/* Create new board */}
 			<button
 				className='flex h-12 w-full cursor-pointer items-center gap-4 pl-6 text-[0.9375rem] font-bold capitalize leading-5 text-[#635FC7]'
-				aria-label='create new board'
 				type='button'
 				onClick={handleCreateBoardClick}>
 				<svg width='16' height='16' xmlns='http://www.w3.org/2000/svg'>

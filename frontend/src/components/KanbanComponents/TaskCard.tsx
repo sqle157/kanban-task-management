@@ -100,6 +100,7 @@ function TaskCard({ task }: { task: ITask }) {
 			onDrop={handleDragDrop}>
 			<button
 				type='button'
+				aria-label={`view ${task.title} task`}
 				onClick={handleViewTaskClick}
 				className='h-full w-full text-start'>
 				{task.title}

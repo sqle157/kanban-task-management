@@ -103,7 +103,7 @@ function ViewTask() {
 					<button
 						className='cursor-pointer'
 						type='button'
-						aria-label='open actions container'
+						aria-label='open available actions container'
 						onClick={() => setOpenActionElement((prevState) => !prevState)}>
 						<img src={verticalEllipse} alt='' />
 					</button>
@@ -113,14 +113,12 @@ function ViewTask() {
 							ref={actionRef}>
 							<button
 								className='w-full cursor-pointer text-start text-[0.8125rem] font-medium leading-6 text-[#828FA3]'
-								aria-label='edit task'
 								type='button'
 								onClick={handleEditTaskClick}>
 								Edit Task
 							</button>
 							<button
 								className='w-full cursor-pointer text-start text-[0.8125rem] font-medium leading-6 text-[#EA5555]'
-								aria-label='delete task'
 								type='button'
 								onClick={handleDeleteTaskClick}>
 								Delete Task
@@ -179,7 +177,7 @@ function ViewTask() {
 					<button
 						className='relative h-10 w-full cursor-pointer rounded border border-[#828FA3]/25 bg-transparent px-4 py-2 text-start text-[0.8125rem] font-medium leading-6 text-white hover:border-[#635FC7]'
 						type='button'
-						aria-label='toggle select status'
+						aria-label='toggle select status container'
 						onClick={(e) => {
 							e.preventDefault();
 							setIsSelectStatus((prevStatus) => !prevStatus);
@@ -207,7 +205,6 @@ function ViewTask() {
 									key={column._id}
 									className='cursor-pointer text-start text-[0.8125rem] font-medium leading-6 text-[#828FA3]'
 									type='button'
-									aria-label='change status'
 									onClick={() =>
 										handleChangeStatus(
 											column.name,
