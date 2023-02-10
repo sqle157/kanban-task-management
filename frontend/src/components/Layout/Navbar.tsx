@@ -52,6 +52,7 @@ function Navbar() {
 									{board.name}
 								</h1>
 								<button
+									aria-label='view board'
 									type='button'
 									onClick={handleViewBoardClick}
 									className='flex items-center gap-2 sm:hidden'>
@@ -69,6 +70,7 @@ function Navbar() {
 								<button
 									className='grid h-8 place-items-center rounded-3xl bg-[#635FC7] px-6 text-[0.9375rem] font-bold leading-5 text-white hover:bg-[#A8A4FF] disabled:opacity-25 disabled:hover:bg-[#635FC7] sm:h-12'
 									disabled={board.columns.length === 0}
+									aria-label='add new task'
 									type='button'
 									onClick={handleAddTaskClick}>
 									<span className='hidden sm:block'>+ Add New Task</span>
@@ -78,6 +80,7 @@ function Navbar() {
 								<button
 									className='cursor-pointer'
 									type='button'
+									aria-label='open action'
 									onClick={() =>
 										setOpenActionElement((prevState) => !prevState)
 									}>
@@ -90,7 +93,10 @@ function Navbar() {
 					<div className='flex flex-1 items-center justify-between sm:justify-center sm:px-8'>
 						<div className='flex items-center gap-2 sm:hidden'>
 							<img src={KanbanLogo} alt='logo' />
-							<button type='button' onClick={handleViewBoardClick}>
+							<button
+								aria-label='view board'
+								type='button'
+								onClick={handleViewBoardClick}>
 								<img src={ChevronDownIcon} alt='' />
 							</button>
 						</div>
@@ -106,12 +112,14 @@ function Navbar() {
 					ref={ref}>
 					<button
 						className='cursor-pointer text-start text-[0.8125rem] font-medium leading-6 text-[#828FA3]'
+						aria-label='edit board'
 						type='button'
 						onClick={handleEditBoardClick}>
 						Edit Board
 					</button>
 					<button
 						className='cursor-pointer text-start text-[0.8125rem] font-medium leading-6 text-[#EA5555]'
+						aria-label='delete board'
 						type='button'
 						onClick={handleDeleteBoardClick}>
 						Delete Board

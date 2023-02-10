@@ -55,6 +55,7 @@ function DeleteModal({ action }: DeleteModalProps) {
 			<div className='flex items-center gap-4'>
 				<button
 					className='h-10 flex-1 rounded-[1.25rem] bg-[#EA5555] text-[0.8125rem] font-bold leading-6 text-white hover:bg-[#FF9898]'
+					aria-label='confirm delete'
 					type='button'
 					onClick={handleDeleteClick}>
 					Delete
@@ -62,6 +63,7 @@ function DeleteModal({ action }: DeleteModalProps) {
 				<button
 					className='h-10 flex-1 rounded-[1.25rem] bg-white text-[0.8125rem] font-bold leading-6 text-[#635FC7]'
 					type='button'
+					aria-label='cancel'
 					onClick={handleCancelClick}>
 					Cancel
 				</button>

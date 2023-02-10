@@ -216,6 +216,7 @@ function AddAndEditTask({ action }: AddAndEditTaskProps) {
 				<button
 					className='h-10 w-full rounded-[1.25rem] bg-white text-[.8125rem] font-bold leading-6 text-[#635FC7]'
 					onClick={handleAddSubtaskClick}
+					aria-label='add new subtask'
 					type='button'>
 					+ Add New Subtask
 				</button>
@@ -226,6 +227,7 @@ function AddAndEditTask({ action }: AddAndEditTaskProps) {
 				<button
 					className='relative h-10 w-full cursor-pointer rounded border border-[#828FA3]/25 bg-transparent px-4 py-2 text-start text-[0.8125rem] font-medium leading-6 text-white hover:border-[#635FC7]'
 					type='button'
+					aria-label='toggle select status'
 					onClick={(e) => {
 						e.preventDefault();
 						setIsSelectStatus((prevStatus) => !prevStatus);
@@ -253,6 +255,7 @@ function AddAndEditTask({ action }: AddAndEditTaskProps) {
 								key={column._id}
 								className='cursor-pointer text-start text-[0.8125rem] font-medium leading-6 text-[#828FA3]'
 								type='button'
+								aria-label='change status'
 								onClick={() =>
 									handleChangeStatus(
 										column.name,
@@ -269,6 +272,7 @@ function AddAndEditTask({ action }: AddAndEditTaskProps) {
 
 			<button
 				className='h-10 w-full rounded-[1.25rem] bg-[#635FC7] text-[.8125rem] font-bold leading-6 text-white hover:bg-[#A8A4FF]'
+				aria-label={action === 'EDIT_TASK' ? 'Save Changes' : 'Create Task'}
 				type='submit'>
 				{action === 'EDIT_TASK' ? 'Save Changes' : 'Create Task'}
 			</button>

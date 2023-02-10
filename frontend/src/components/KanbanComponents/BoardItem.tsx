@@ -37,6 +37,7 @@ function BoardItem({ board }: { board: IBoard }) {
 					} ${activeBoard?._id === board._id && 'bg-[#635FC7] text-white'}`}>
 				<button
 					type='button'
+					aria-label='select board'
 					onClick={() => handleBoardClick(board._id ?? null)}
 					className='flex h-full w-full items-center gap-4'>
 					<svg width='16' height='16' xmlns='http://www.w3.org/2000/svg'>
