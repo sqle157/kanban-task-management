@@ -1,6 +1,6 @@
 # Kanban task management web app
 
-A Kanban task management web application with a drag-and-drop functionality, and a real-time database integration with MongoDB.
+A web application for Kanban task management, featuring drag-and-drop functionality and seamless integration with MongoDB for real-time database updates.
 
 ![Design preview for the Kanban task management web app coding challenge](./screenshot.png)
 
